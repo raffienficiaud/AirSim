@@ -6,7 +6,40 @@
 [![Windows Build](https://github.com/CodexLabsLLC/Colosseum/actions/workflows/test_windows.yml/badge.svg)](https://github.com/CodexLabsLLC/Colosseum/actions/workflows/test_windows.yml)
 
 [![](https://dcbadge.vercel.app/api/server/y9ZJKKKn8J)](https://discord.gg/y9ZJKKKn8J)
-  
+
+# Airsim simplified
+
+```bash
+python3 -m venv .venv_build
+. .venv_build/bin/activate
+
+pip install -U pip wheel
+pip install conan
+
+export BASE_FOLDER=`pwd`
+
+git clone git@github.com:conan-io/conan-center-index.git $BASE_FOLDER/../clone conan-center-index
+export CONAN_CENTER_INDEX_SRC=$BASE_FOLDER/../conan-center-index
+export CONAN_HOME=$BASE_FOLDER/.conan
+
+# TODO profile
+conan profile detect
+
+cd external_libraries
+./prepare_conan_clang.sh
+
+
+mkdir $BASE_FOLDER/build
+
+# TODO --profile=${profile_name} \
+conan install \
+  --output-folder $BASE_FOLDER/build \
+  --build=missing \
+  -s build_type=Release $BASE_FOLDER/
+
+```
+
+
 ## Looking for more performance?
 The company managing this repo created the SWARM Developer System to help build, simulate and deploy single and
 multi-agent autonomous systems. Check it out here: [SWARM Developer System](https://www.swarmsim.io/overview/developer)
