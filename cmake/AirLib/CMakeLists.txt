@@ -19,11 +19,25 @@ include_directories(
 
 file(GLOB_RECURSE 
   ${PROJECT_NAME}_sources
+  ${AIRSIM_ROOT}/${PROJECT_NAME}/include/api/*.hpp
   ${AIRSIM_ROOT}/${PROJECT_NAME}/src/api/*.cpp
+  
+  ${AIRSIM_ROOT}/${PROJECT_NAME}/include/common/*.hpp
+  ${AIRSIM_ROOT}/${PROJECT_NAME}/src/common/*.cpp
+  
+  ${AIRSIM_ROOT}/${PROJECT_NAME}/include/common/common_utils/*.cpp
   ${AIRSIM_ROOT}/${PROJECT_NAME}/src/common/common_utils/*.cpp
+  
+  ${AIRSIM_ROOT}/${PROJECT_NAME}/include/safety/*.hpp
   ${AIRSIM_ROOT}/${PROJECT_NAME}/src/safety/*.cpp
+
+  ${AIRSIM_ROOT}/${PROJECT_NAME}/include/vehicles/car/api/*.hpp
   ${AIRSIM_ROOT}/${PROJECT_NAME}/src/vehicles/car/api/*.cpp
+
+  ${AIRSIM_ROOT}/${PROJECT_NAME}/include/vehicles/multirotor/*.hpp
   ${AIRSIM_ROOT}/${PROJECT_NAME}/src/vehicles/multirotor/*.cpp
+
+  ${AIRSIM_ROOT}/${PROJECT_NAME}/include/vehicles/multirotor/api/*.hpp
   ${AIRSIM_ROOT}/${PROJECT_NAME}/src/vehicles/multirotor/api/*.cpp
 )
 

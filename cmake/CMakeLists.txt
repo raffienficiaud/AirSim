@@ -1,6 +1,8 @@
 ﻿cmake_minimum_required(VERSION 3.5.0)
 project(AirSim)
 
+enable_testing()
+
 set(AIRSIM_ROOT "${CMAKE_CURRENT_LIST_DIR}/..")
 file(REAL_PATH "${AIRSIM_ROOT}" AIRSIM_ROOT)
 

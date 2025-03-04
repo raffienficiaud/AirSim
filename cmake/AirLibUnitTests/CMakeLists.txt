@@ -22,13 +22,25 @@ include_directories(
 
 #AddExecutableSource()
 
-# set(PROJECT_CPP ${PROJECT_NAME}_sources)
-file(GLOB_RECURSE PROJECT_CPP "${AIRSIM_ROOT}/${PROJECT_NAME}/*.cpp")
-add_executable(${PROJECT_NAME} ${PROJECT_CPP})
+set(PROJECT_CPP ${PROJECT_NAME}_sources)
+file(GLOB_RECURSE 
+  ${PROJECT_CPP} 
+  "${AIRSIM_ROOT}/${PROJECT_NAME}/*.[ch]pp")
+add_executable(${PROJECT_NAME} ${${PROJECT_CPP}})
 
 #CommonTargetLink()
-target_link_libraries(${PROJECT_NAME} AirLib)
-target_link_libraries(${PROJECT_NAME} MavLinkCom)
-target_link_libraries(${PROJECT_NAME} ${RPC_LIB})
-target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(
+  ${PROJECT_NAME} 
+  PUBLIC 
+    AirLib
+    #MavLinkCom
+    #rpclib::rpc
+    #Threads::Threads
+)
 
+add_test(
+  NAME 
+    ${PROJECT_NAME} 
+  COMMAND
+    ${PROJECT_NAME}
+)
