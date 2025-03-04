@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.5.0)
 project(rpclib_wrapper)
 
+
+find_package(rpclib REQUIRED)
+
+
+if(FALSE)
 LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../cmake-modules") 
 INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../cmake-modules/CommonSetup.cmake")
 CommonSetup()
@@ -11,3 +16,5 @@ IF(UNIX)
 ENDIF()
 
 add_subdirectory("${AIRSIM_ROOT}/external/rpclib/${RPCLIB_VERSION_FOLDER}" "${CMAKE_CURRENT_BINARY_DIR}/rpclib")
+
+endif()
