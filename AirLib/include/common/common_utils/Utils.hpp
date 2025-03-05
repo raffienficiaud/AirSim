@@ -484,13 +484,24 @@ public:
         return system_clock::now();
     }
 
-    static std::time_t to_time_t(const std::string& str, bool is_dst = false, const std::string& format = "%Y-%m-%d %H:%M:%S")
+    static std::time_t to_time_t(const std::string& str, const int time_offset_seconds = 0, bool is_dst = false, const std::string& format = "%Y-%m-%d %H:%M:%S")
     {
         std::tm t;
         t.tm_isdst = is_dst ? 1 : 0;
         std::istringstream ss(str);
         ss >> std::get_time(&t, format.c_str());
-        return mktime(&t);
+        
+        // get the time offset of the computer
+        std::tm tm = {};
+        std::time_t t_local = std::mktime(&tm);
+        std::tm* gm_tm = std::gmtime(&t_local);
+        gm_tm->tm_isdst = false;
+        std::time_t gm_t = std::mktime(gm_tm);
+        std::time_t gm_offset = (gm_t - t_local);
+
+        std::time_t real_gm_t = mktime(&t) - gm_offset - time_offset_seconds;
+
+        return real_gm_t;
 
         /* GCC doesn't implement put_time yet
         stringstream ss;
