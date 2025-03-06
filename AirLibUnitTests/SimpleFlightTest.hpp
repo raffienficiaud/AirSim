@@ -24,6 +24,7 @@ namespace airlib
             ClockFactory::get(clock);
 
             SensorFactory sensor_factory;
+            AirSimSettings::singleton().load(nullptr);
 
             std::unique_ptr<MultiRotorParams> params = MultiRotorParamsFactory::createConfig(
                 AirSimSettings::singleton().getVehicleSetting("SimpleFlight"),
