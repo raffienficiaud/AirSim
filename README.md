@@ -53,6 +53,12 @@ cmake -G Xcode \
   --fresh \
   ../cmake
 
+# after the build: this will create the AirSim
+# plugin content with everything needed.
+cmake \
+  --install . \
+  --config Debug \
+  --prefix /Volumes/user-data/tmp/AirsimUnreal/
 ```
 
 
