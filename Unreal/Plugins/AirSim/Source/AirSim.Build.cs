@@ -88,7 +88,7 @@ public class AirSim : ModuleRules
         PublicDefinitions.Add("_CRT_SECURE_NO_WARNINGS=1");
         PublicDefinitions.Add("HMD_MODULE_INCLUDED=0");
 
-        # Adding for Eigen compatibility
+        // Adding for Eigen compatibility
         PublicDefinitions.Add("EIGEN_HAS_STD_RESULT_OF=0");
 
         PublicIncludePaths.Add(Path.Combine(AirLibPath, "include"));
