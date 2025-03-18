@@ -43,6 +43,7 @@ public class AirSim : ModuleRules
     private void SetupCompileMode(CompileMode mode, ReadOnlyTargetRules Target)
     {
         LoadAirSimDependency(Target, "MavLinkCom", "MavLinkCom");
+        System.Console.WriteLine("RAFFFFFFFFFI HELLOOOOO!!!!!!!! compile mode {0}", mode);
 
         switch (mode)
         {
@@ -64,6 +65,7 @@ public class AirSim : ModuleRules
                 break;
 
             case CompileMode.CppCompileWithRpc:
+                AddLibDependency("AirLib", Path.Combine(AirLibPath, "lib", "x64"), "AirLib", Target, false);
                 LoadAirSimDependency(Target, "rpclib", "rpc");
                 break;
 
@@ -112,10 +114,14 @@ public class AirSim : ModuleRules
 
         if (Target.Platform == UnrealTargetPlatform.Linux)
         {
+            System.Console.WriteLine("RAFFFFFFFFFI This is LINUX!!!!!!!!");
             // needed when packaging
             PublicAdditionalLibraries.Add("stdc++");
             PublicAdditionalLibraries.Add("supc++");
         }
+
+
+        System.Console.WriteLine("RAFFFFFFFFFI HELLOOOOO!!!!!!!!");
     }
 
     static void CopyFileIfNewer(string srcFilePath, string destFolder)
@@ -132,6 +138,8 @@ public class AirSim : ModuleRules
     private bool LoadAirSimDependency(ReadOnlyTargetRules Target, string LibName, string LibFileName)
     {
         string LibrariesPath = Path.Combine(AirLibPath, "deps", LibName, "lib");
+
+        System.Console.WriteLine("RAFFFFFFFFFI LoadAirSimDependency!!!!!!!! LibName {0} LibrariesPath {1}", LibName, LibrariesPath);
         return AddLibDependency(LibName, LibrariesPath, LibFileName, Target, true);
     }
 
