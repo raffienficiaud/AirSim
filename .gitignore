@@ -404,3 +404,4 @@ PythonClient/docs/_build
 .cache/
 .conan
 .venv_build
+Unreal/Environments/BlocksV2/Unreal/Plugins

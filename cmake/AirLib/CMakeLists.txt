@@ -63,7 +63,7 @@ target_link_libraries(
 )
 
 
-set(_src_code_install_location "Unreal/Plugins/AirSim")
+set(_src_code_install_location "Plugins/AirSim")
 install(
   DIRECTORY
     "${AIRSIM_ROOT}/Unreal/Plugins/AirSim/"
@@ -163,6 +163,12 @@ install(
   #  HEADERS DESTINATION "coucou"    
   #PUBLIC_HEADER 
   #  DESTINATION deps# COMPONENT Development
+)
+
+install(
+  SCRIPT ./install_script.cmake
+  COMPONENT
+    AirSimUnreal
 )
 
 #target_link_libraries(${PROJECT_NAME} MavLinkCom)
