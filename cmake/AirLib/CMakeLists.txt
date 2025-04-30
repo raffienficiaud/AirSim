@@ -63,14 +63,13 @@ target_link_libraries(
 )
 
 
-set(_src_code_install_location "Plugins/AirSim")
 install(
   DIRECTORY
     "${AIRSIM_ROOT}/Unreal/Plugins/AirSim/"
   COMPONENT
     AirSimUnreal
   DESTINATION
-    "${_src_code_install_location}"
+    "${PLUGIN_INSTALL_FOLDER}"
 )
 
 foreach(_file IN LISTS ${PROJECT_NAME}_sources)
@@ -78,14 +77,14 @@ foreach(_file IN LISTS ${PROJECT_NAME}_sources)
   if("${_file_ext}" MATCHES "\\.h.*")
     get_filename_component(_current_folder "${_file}" DIRECTORY)
     file(RELATIVE_PATH _current_folder "${AIRSIM_ROOT}/${PROJECT_NAME}/include/" "${_current_folder}")
-    # message(STATUS "${_file} installed to ${_src_code_install_location}/Source/include/${_current_folder}")
+    # message(STATUS "${_file} installed to ${PLUGIN_INSTALL_FOLDER}/Source/include/${_current_folder}")
     install(
       FILES
         "${_file}"
       COMPONENT
         AirSimUnreal
       DESTINATION
-        "${_src_code_install_location}/Source/AirLib/include/${_current_folder}"
+        "${PLUGIN_INSTALL_FOLDER}/Source/AirLib/include/${_current_folder}"
     )
   endif()
 endforeach()
@@ -97,7 +96,7 @@ install(
   COMPONENT
     AirSimUnreal
   DESTINATION
-    "${_src_code_install_location}/Source/AirLib/lib/x64/"
+    "${PLUGIN_INSTALL_FOLDER}/Source/AirLib/lib/x64/"
   #FILE_SET 
   #  HEADERS DESTINATION "coucou"    
   #PUBLIC_HEADER 
@@ -111,7 +110,7 @@ message(STATUS "coucou ${importTargets}")
 #   IMPORTED_RUNTIME_ARTIFACTS ${importTargets}
 #   LIBRARY
 #     DESTINATION
-#       "${_src_code_install_location}/Source/AirLib/deps"
+#       "${PLUGIN_INSTALL_FOLDER}/Source/AirLib/deps"
 #     COMPONENT
 #       AirSimUnreal
 #         
@@ -132,7 +131,7 @@ install(
   COMPONENT
     AirSimUnreal
   DESTINATION
-    "${_src_code_install_location}/Source/AirLib/deps"
+    "${PLUGIN_INSTALL_FOLDER}/Source/AirLib/deps"
   #FILE_SET 
   #  HEADERS DESTINATION "coucou"    
   #PUBLIC_HEADER 
@@ -145,7 +144,7 @@ install(
   COMPONENT
     AirSimUnreal
   DESTINATION
-    "${_src_code_install_location}/Source/AirLib/deps/rpclib"
+    "${PLUGIN_INSTALL_FOLDER}/Source/AirLib/deps/rpclib"
   #FILE_SET 
   #  HEADERS DESTINATION "coucou"    
   #PUBLIC_HEADER 
@@ -158,7 +157,7 @@ install(
   COMPONENT
     AirSimUnreal
   DESTINATION
-    "${_src_code_install_location}/Source/AirLib/deps/rpclib"
+    "${PLUGIN_INSTALL_FOLDER}/Source/AirLib/deps/rpclib"
   #FILE_SET 
   #  HEADERS DESTINATION "coucou"    
   #PUBLIC_HEADER 

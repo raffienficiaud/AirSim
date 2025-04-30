@@ -92,15 +92,13 @@ target_link_libraries(MavLinkCom
   Threads::Threads
 )
 
-set(_src_code_install_location "Unreal/Plugins/AirSim")
-
 install(
   TARGETS
     MavLinkCom
   COMPONENT
     AirSimUnreal
   DESTINATION
-    "${_src_code_install_location}/Source/AirLib/deps/MavLinkCom/lib"
+    "${PLUGIN_INSTALL_FOLDER}/Source/AirLib/deps/MavLinkCom/lib"
   #FILE_SET 
   #  HEADERS DESTINATION "coucou"    
   #PUBLIC_HEADER 
@@ -124,7 +122,7 @@ foreach(_file IN LISTS _mavlink_sources)
       COMPONENT
         AirSimUnreal
       DESTINATION
-        "${_src_code_install_location}/Source/AirLib/deps/MavLinkCom/include/${_current_folder}"
+        "${PLUGIN_INSTALL_FOLDER}/Source/AirLib/deps/MavLinkCom/include/${_current_folder}"
     )
   endif()
 endforeach()

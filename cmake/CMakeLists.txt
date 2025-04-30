@@ -10,6 +10,8 @@ if(NOT EXISTS "${AIRSIM_ROOT}")
     message(FATAL_ERROR "Cannot find AIRSIM_ROOT at location '${AIRSIM_ROOT}'")
 endif()
 
+set(PLUGIN_INSTALL_FOLDER "Plugins/AirSim")
+
 add_subdirectory("rpclib_wrapper")
 add_subdirectory("AirLib")
 add_subdirectory("MavLinkCom")
@@ -19,5 +21,3 @@ add_subdirectory("HelloSpawnedDrones")
 add_subdirectory("HelloCar")
 add_subdirectory("DroneShell")
 add_subdirectory("DroneServer")
-
-
