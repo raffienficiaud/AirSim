@@ -121,7 +121,7 @@ class AirSimDroneEnv(AirSimEnv):
                             self.state["velocity"].y_val,
                             self.state["velocity"].z_val,
                         ]
-                    )
+                    ).item()
                     - 0.5
                 )
                 reward = reward_dist + reward_speed
@@ -130,14 +130,15 @@ class AirSimDroneEnv(AirSimEnv):
         if reward <= -10:
             done = 1
 
-        return reward, done
+        return reward, bool(done)
 
     def step(self, action):
         self._do_action(action)
         obs = self._get_obs()
         reward, done = self._compute_reward()
 
-        return obs, reward, done, self.state
+        # False is truncated, we may give a time limit as well
+        return obs, reward, done, False, self.state
 
     def reset(self, seed: int | None = None, options: dict[str, Any] | None = None):
         super().reset(seed=seed)
