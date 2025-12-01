@@ -1,12 +1,12 @@
-import setup_path
-import airsim
-import numpy as np
 import math
 import time
 
-import gym
-from gym import spaces
-from airgym.envs.airsim_env import AirSimEnv
+import numpy as np
+from gymnasium import spaces
+
+import airsim
+
+from .airsim_env import AirSimEnv
 
 
 class AirSimCarEnv(AirSimEnv):
@@ -97,8 +97,14 @@ class AirSimCarEnv(AirSimEnv):
         pts = [
             np.array([x, y, 0])
             for x, y in [
-                (0, -1), (130, -1), (130, 125), (0, 125),
-                (0, -1), (130, -1), (130, -128), (0, -128),
+                (0, -1),
+                (130, -1),
+                (130, 125),
+                (0, 125),
+                (0, -1),
+                (130, -1),
+                (130, -128),
+                (0, -128),
                 (0, -1),
             ]
         ]
@@ -108,9 +114,7 @@ class AirSimCarEnv(AirSimEnv):
         for i in range(0, len(pts) - 1):
             dist = min(
                 dist,
-                np.linalg.norm(
-                    np.cross((car_pt - pts[i]), (car_pt - pts[i + 1]))
-                )
+                np.linalg.norm(np.cross((car_pt - pts[i]), (car_pt - pts[i + 1])))
                 / np.linalg.norm(pts[i] - pts[i + 1]),
             )
 

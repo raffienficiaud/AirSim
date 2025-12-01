@@ -18,3 +18,14 @@ Some examples also requires opencv.
 More information on AirSim Python APIs can be found at:
 https://github.com/Microsoft/AirSim/blob/main/docs/python.md
 
+
+# Install local development version
+
+```bash
+SETUPTOOLS_SCM_PRETEND_VERSION=0.1-dev pip install -e .
+```
+
+Install the necessary for reinformcement learning
+```bash
+pip install --group rl
+```

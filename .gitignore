@@ -405,3 +405,6 @@ PythonClient/docs/_build
 .conan
 .venv_build
 Unreal/Environments/BlocksV2/Unreal/Plugins
+Unreal/Environments/BlocksV2/package_project
+_version.py
+*.egg-info

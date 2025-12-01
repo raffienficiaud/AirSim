@@ -1,12 +1,12 @@
+import gymnasium as gym
 import numpy as np
-import airsim
+from gymnasium import spaces
 
-import gym
-from gym import spaces
+import airsim
 
 
 class AirSimEnv(gym.Env):
-    metadata = {"render.modes": ["rgb_array"]}
+    metadata = {"render_modes": ["rgb_array"]}
 
     def __init__(self, image_shape):
         self.observation_space = spaces.Box(0, 255, shape=image_shape, dtype=np.uint8)

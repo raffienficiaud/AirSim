@@ -1,9 +1,14 @@
-from gym.envs.registration import register
+from gymnasium.envs.registration import register
 
-register(
-    id="airsim-drone-sample-v0", entry_point="airgym.envs:AirSimDroneEnv",
-)
 
-register(
-    id="airsim-car-sample-v0", entry_point="airgym.envs:AirSimCarEnv",
-)
+def register_environments():
+
+    register(
+        id="airsim-drone-sample-v0",
+        entry_point="airgym.envs:AirSimDroneEnv",
+    )
+
+    register(
+        id="airsim-car-sample-v0",
+        entry_point="airgym.envs:AirSimCarEnv",
+    )

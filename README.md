@@ -54,11 +54,32 @@ cmake -G Xcode \
   ../cmake
 
 # after the build: this will create the AirSim
-# plugin content with everything needed.
+# plugin folder inside the Unreal project folder
+# pointed by ../Unreal/Environments/BlocksV2
+# This can be any path containing a .uproject
 cmake \
   --install . \
   --config Debug \
-  --prefix /Volumes/user-data/tmp/AirsimUnreal/
+  --prefix ../Unreal/Environments/BlocksV2
+```
+
+# Running the RL stuff
+
+```bash
+cd PythonClient
+pip install -e .
+
+# needed by airsim
+pip install msgpack-rpc-python 
+
+# optional
+# opencv-contrib-python 
+pip install torch torchrl torchvision "gymnasium[classic_control]"
+
+# to fix: installation of "gymnasium[box2d]"
+
+cd ./reinforcement_learning
+PYTHONPATH=`pwd`/..:$PYTHONPATH python dqn_drone_raffi.py
 ```
 
 

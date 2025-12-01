@@ -1,13 +1,13 @@
-import setup_path
-import airsim
-import numpy as np
 import math
-import time
-from argparse import ArgumentParser
+from typing import Any
 
-import gym
-from gym import spaces
-from airgym.envs.airsim_env import AirSimEnv
+import numpy as np
+from gymnasium import spaces
+from PIL import Image
+
+import airsim
+
+from .airsim_env import AirSimEnv
 
 
 class AirSimDroneEnv(AirSimEnv):
@@ -43,11 +43,9 @@ class AirSimDroneEnv(AirSimEnv):
         self.drone.moveByVelocityAsync(1, -0.67, -0.8, 5).join()
 
     def transform_obs(self, responses):
-        img1d = np.array(responses[0].image_data_float, dtype=np.float)
+        img1d = np.array(responses[0].image_data_float, dtype=np.float64)
         img1d = 255 / np.maximum(np.ones(img1d.size), img1d)
         img2d = np.reshape(img1d, (responses[0].height, responses[0].width))
-
-        from PIL import Image
 
         image = Image.fromarray(img2d)
         im_final = np.array(image.resize((84, 84)).convert("L"))
@@ -141,9 +139,11 @@ class AirSimDroneEnv(AirSimEnv):
 
         return obs, reward, done, self.state
 
-    def reset(self):
+    def reset(self, seed: int | None = None, options: dict[str, Any] | None = None):
+        super().reset(seed=seed)
         self._setup_flight()
-        return self._get_obs()
+        self.state.pop("prev_position")
+        return self._get_obs(), self.state
 
     def interpret_action(self, action):
         if action == 0:
