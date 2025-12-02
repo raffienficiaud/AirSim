@@ -128,7 +128,12 @@ LR = 3e-4
 n_actions = env.action_space.n
 # Get the number of state observations
 state, info = env.reset()
-n_observations = len(state)
+n_observations = len(state.flatten())
+
+import ipdb
+
+ipdb.set_trace()
+
 
 policy_net = DQN(n_observations, n_actions).to(device)
 target_net = DQN(n_observations, n_actions).to(device)
@@ -153,7 +158,11 @@ def select_action(state):
             # t.max(1) will return the largest column value of each row.
             # second column on max result is index of where max element was
             # found, so we pick action with the larger expected reward.
-            return policy_net(state).max(1).indices.view(1, 1)
+            return (
+                policy_net(state.reshape((-1, n_observations)))
+                .max(1)
+                .indices.view(1, 1)
+            )
     else:
         return torch.tensor(
             [[env.action_space.sample()]], device=device, dtype=torch.long
@@ -197,7 +206,9 @@ def optimize_model():
     # detailed explanation). This converts batch-array of Transitions
     # to Transition of batch-arrays.
     batch = Transition(*zip(*transitions))
+    import ipdb
 
+    ipdb.set_trace()
     # Compute a mask of non-final states and concatenate the batch elements
     # (a final state would've been the one after which simulation ended)
     non_final_mask = torch.tensor(
@@ -206,6 +217,11 @@ def optimize_model():
         dtype=torch.bool,
     )
     non_final_next_states = torch.cat([s for s in batch.next_state if s is not None])
+
+    import ipdb
+
+    ipdb.set_trace()
+
     state_batch = torch.cat(batch.state)
     action_batch = torch.cat(batch.action)
     reward_batch = torch.cat(batch.reward)
@@ -244,6 +260,7 @@ if torch.cuda.is_available() or torch.backends.mps.is_available():
     num_episodes = 600
 else:
     num_episodes = 50
+
 
 for i_episode in range(num_episodes):
     # Initialize the environment and get its state
@@ -330,7 +347,7 @@ if False:
     model.learn(
         total_timesteps=5e5,
         tb_log_name="dqn_airsim_drone_run_" + str(time.time()),
-        **kwargs
+        **kwargs,
     )
 
     # Save policy weights
