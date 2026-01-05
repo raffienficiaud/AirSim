@@ -87,10 +87,10 @@ target_include_directories(
     "${_mavlink_source_dir}/common_utils/"
     "${_mavlink_source_dir}/include/"
 )
-target_link_libraries(MavLinkCom 
-  PUBLIC
-  Threads::Threads
-)
+#target_link_libraries(MavLinkCom 
+#  PUBLIC
+#  Threads::Threads
+#)
 
 install(
   TARGETS

@@ -116,8 +116,8 @@ public class AirSim : ModuleRules
         {
             System.Console.WriteLine("RAFFFFFFFFFI This is LINUX!!!!!!!!");
             // needed when packaging
-            PublicAdditionalLibraries.Add("stdc++");
-            PublicAdditionalLibraries.Add("supc++");
+            PublicSystemLibraryPaths.Add("stdc++");
+            PublicSystemLibraryPaths.Add("supc++");
         }
 
 

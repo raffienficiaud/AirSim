@@ -57,9 +57,15 @@ target_link_libraries(
   ${PROJECT_NAME}
   PUBLIC
     MavLinkCom
-    Threads::Threads
+    # Threads::Threads
     Eigen3::Eigen
     rpclib::rpc
+)
+
+target_include_directories(
+  ${PROJECT_NAME}
+  PUBLIC
+    ${AIRSIM_ROOT}/${PROJECT_NAME}/include/
 )
 
 
