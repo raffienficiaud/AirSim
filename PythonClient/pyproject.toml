@@ -27,7 +27,7 @@ requires-python = ">=3.11"
 dynamic = ["version"]
 
 [dependency-groups]
-rl = ["torch", "torchrl", "gymnasium[classic_control]"]
+rl = ["torch", "torchrl", "gymnasium[classic_control]", "matplotlib"]
 docs = [
     'nbsphinx',
     'sphinx',

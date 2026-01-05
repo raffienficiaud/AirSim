@@ -25,7 +25,24 @@ https://github.com/Microsoft/AirSim/blob/main/docs/python.md
 SETUPTOOLS_SCM_PRETEND_VERSION=0.1-dev pip install -e .
 ```
 
-Install the necessary for reinformcement learning
+Install the necessary for reinforcement learning
 ```bash
 pip install --group rl
 ```
+
+
+# Run the environment
+
+1. The binary is inside the packaged .app file
+1. the following command line runs unattended and offscreen
+1. additional settings can be passed from command line, such as the API port and the multirotor setting.
+   That way several instances can be run in parallel.
+
+```bash
+/Volumes/user-data/code/perso/AirSim/Unreal/Environments/BlocksV2/Binaries/Mac/BlocksV2.app/Contents/MacOS/BlocksV2 \
+    -RenderOffscreen \
+    -unattended \
+    -settings='{"SimMode":"Multirotor","ApiServerPort":41452}'
+```
+
+
