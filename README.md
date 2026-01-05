@@ -8,37 +8,76 @@
 [![](https://dcbadge.vercel.app/api/server/y9ZJKKKn8J)](https://discord.gg/y9ZJKKKn8J)
 
 # Airsim simplified
+The original build/installation instructions of Airsim are way too complicated. This fork
+aims at simplifying the build of Airsim and the injection of the plugin into your Unreal environment.
+
+
+## Build steps
+The steps are as follows:
+
+1. install the tools needed for generating the dependencies. This is simple: a python package called `conan` will
+   be used for this
+1. checkout the `conan` recipes repository that contain the "recipes": the `conan` recipes are small scripts
+   that define rules for building C/C++ packages. The `conan` community has already done an incredible work
+   for providing the packages we need in Airim as simple recipes.
+1. configure the dependencies of Airsim and build those with `conan`
+1. configure Airsim `cmake` environment to use the conan built packages and build Airsim.
+
+This sounds a bit involved, but this is actually very simple.
+
+### Configure `conan`
 
 ```bash
+# create a python virtual environment and install conan: this does not need to be shared with anything else
+# as it will be used only for conan
 python3 -m venv .venv_build
 . .venv_build/bin/activate
 
+# install conan
 pip install -U pip wheel
 pip install conan
 
+# convenience variable
 export BASE_FOLDER=`pwd`
 
-git clone git@github.com:conan-io/conan-center-index.git $BASE_FOLDER/../clone conan-center-index
+# this folder will contain the conan-center-index: a repository that contains all the "recipes"
+# we need for building our dependencies
 export CONAN_CENTER_INDEX_SRC=$BASE_FOLDER/../conan-center-index
+
+# this variable indicates the location where conan will be storing the build profiles, recipes
+# and built dependencies
 export CONAN_HOME=$BASE_FOLDER/.conan
 
-# TODO profile
+# checkout the conan repository containing the "recipes"
+git clone git@github.com:conan-io/conan-center-index.git $CONAN_CENTER_INDEX_SRC
+
+# initialize conan profile, requires $CONAN_HOME to be defined **first**
 conan profile detect
+```
 
-cd external_libraries
-./prepare_conan_clang.sh
+### Configure and build Airsim
 
-
+```bash
+# this will be our build folder
 mkdir $BASE_FOLDER/build
 
+# this little script declares the conan packages we need for building Airsim
+./external_libraries/prepare_conan_clang.sh
+
 # TODO --profile=${profile_name} \
-cd build
+cd $BASE_FOLDER/build
+
+#
+# build the conan dependencies:
+#
+
+# for Linux:
 conan install \
   --output-folder . \
   --build=missing \
   -s build_type=Release ..
 
-# for Xcode
+# for macOS/Xcode, multiconfiguration build makes it easier
 conan install \
   --output-folder . \
   --build=missing \
@@ -47,20 +86,41 @@ conan install \
   -c tools.cmake.cmaketoolchain:generator=Xcode \
   ..
 
-# and then
+#
+# Configure and build Airsim
+#
+
+# for linux:
+cmake \
+  -DCMAKE_TOOLCHAIN_FILE=./conan_toolchain.cmake \
+  -DCMAKE_BUILD_TYPE=Release \
+  --fresh \
+  ../cmake
+make -j
+
+# for macOS/Xcode:
 cmake -G Xcode \
   -DCMAKE_TOOLCHAIN_FILE=./conan_toolchain.cmake \
   --fresh \
   ../cmake
+# then open and build the project using your IDE
+open Airsim.project
+```
 
+### Install the plugin into your Unreal environment
+
+Little cherry on top of the previous steps: the following installs the generated binaries into
+your Unreal environment. It modifies accordingly your Unreal project and performs the necessary copies.
+
+```bash
 # after the build: this will create the AirSim
 # plugin folder inside the Unreal project folder
-# pointed by ../Unreal/Environments/BlocksV2
+# pointed by $BASE_FOLDER/Unreal/Environments/BlocksV2
 # This can be any path containing a .uproject
 cmake \
   --install . \
   --config Debug \
-  --prefix ../Unreal/Environments/BlocksV2
+  --prefix $BASE_FOLDER/Unreal/Environments/BlocksV2
 ```
 
 # Running the RL stuff

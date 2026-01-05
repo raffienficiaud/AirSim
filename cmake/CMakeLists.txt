@@ -3,6 +3,9 @@ project(AirSim)
 
 enable_testing()
 
+# required on Linux
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 set(AIRSIM_ROOT "${CMAKE_CURRENT_LIST_DIR}/..")
 file(REAL_PATH "${AIRSIM_ROOT}" AIRSIM_ROOT)
 
