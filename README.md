@@ -128,6 +128,10 @@ cmake \
 1. replace the variable `unreal_clang` with the actual folder containing the toolchain
 1. replace the variable `compiler.version` with the actual compiler version (see in the toolchain)
 
+```bash
+sudo apt-get install libc++-dev libc++abi-18-dev libc++-18-dev
+```
+
 
 ```jinja2
 {% set unreal_clang = "/data/code/unreal-engine-5.5.4/Linux_Unreal_Engine_5.5.4/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v23_clang-18.1.0-rockylinux8/x86_64-unknown-linux-gnu/" %}
@@ -140,14 +144,14 @@ PATH=+(path){{ unreal_clang }}/bin
 
 [conf]
 tools.build:compiler_executables={'c': '{{ clang }}', 'cpp': '{{ clang + '++' }}' }
-tools.build:sysroot={{ unreal_clang }}
+# tools.build:sysroot={{ unreal_clang }}
 
 [settings]
 arch=x86_64
 build_type=Release
 compiler=clang
 compiler.cppstd=17
-compiler.libcxx=libstdc++
+compiler.libcxx=libc++
 compiler.version=18
 os=Linux
 ```
