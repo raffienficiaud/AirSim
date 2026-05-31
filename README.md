@@ -71,10 +71,23 @@ cd $BASE_FOLDER/build
 # build the conan dependencies:
 #
 
+# on linux, install the conan profile
+conan profile detect
+cp profile-unreal $(dirname $(conan profile path default))/unreal
+
+
 # for Linux:
 conan install \
   --output-folder . \
   --build=missing \
+  -s build_type=Release ..
+
+# with the correct profile and rebuilds everything
+conan install \
+  -pr unreal \
+  -pr:b unreal \
+  --output-folder . \
+  --build="*" \
   -s build_type=Release ..
 
 # for macOS/Xcode, multiconfiguration build makes it easier
@@ -122,6 +135,16 @@ cmake \
   --config Debug \
   --prefix $BASE_FOLDER/Unreal/Environments/BlocksV2
 ```
+
+On Linux, we need to make sure that we are using the right toolchain that is shipped with Unreal, and the options are right.
+This can be done through the use of the right conan profile, see above and below on how to edit it (to edit...)
+We can for instance check the content of the `rpclib` after install and it should not contain any `isoC23` symbols
+
+```
+nm /data/code/AirSim/Unreal/Environments/BlocksV2/Plugins/AirSim/Source/AirLib/deps/rpclib/lib/librpc.a | grep isoc23
+```
+
+See https://pgaleone.eu/2023/06/18/unreal-engine-third-party-linux-sysroot-dependencies/ for more details on sysroot.
 
 ### Conan profile
 

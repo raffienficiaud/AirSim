@@ -1,0 +1,82 @@
+{% set unreal_base = "/data/code/unreal-engine-5.5.4/Linux_Unreal_Engine_5.5.4/" %}
+{% set target = 'x86_64-unknown-linux-gnu' %}
+{% set unreal_clang = unreal_base + "Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v23_clang-18.1.0-rockylinux8/x86_64-unknown-linux-gnu/" %}
+{% set unreal_non_standard_base = 'Engine/Source/ThirdParty/Unix/LibCxx' %}
+{% set unreal_non_standard_lib = unreal_non_standard_base + '/lib/Unix' %}
+{% set clang = unreal_clang + "/bin/clang" %}
+
+
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -nostdinc++ -I${ENGINE}/Engine/Source/ThirdParty/Unix/LibCxx/include/ -I${ENGINE}/Engine/Source/ThirdParty/Unix/LibCxx/include/c++/v1/")
+
+[buildenv]
+CC={{ clang }}
+CXX={{ clang }}++
+PATH=+(path){{ unreal_clang }}/bin
+# LDFLAGS='-L{{ unreal_base }}/Engine/Source/ThirdParty/Unix/LibCxx/lib/Unix/x86_64-unknown-linux-gnu'
+
+[conf]
+tools.build:compiler_executables={'c': '{{ clang }}', 'cpp': '{{ clang + '++' }}' }
+tools.build:sysroot={{ unreal_clang }}
+tools.build:cflags=['-target {{ target }}']
+tools.build:cxxflags=['-target {{ target }}', '-I{{ unreal_base }}/{{ unreal_non_standard_base }}/include/', '-I{{ unreal_base }}/{{ unreal_non_standard_base }}/include/c++/v1/', '-stdlib=libc++']
+tools.build:sharedlinkflags=['-stdlib=libc++', '-nodefaultlibs', '-L{{ unreal_base }}/{{ unreal_non_standard_lib }}/{{ target }}']
+tools.build:exelinkflags=['-stdlib=libc++', '-L{{ unreal_base }}/{{ unreal_non_standard_lib }}/{{ target }}']
+
+# tools.build:cflags=['-target x86_64-unknown-linux-gnu']
+#tools.build:cxxflags=['-target x86_64-unknown-linux-gnu',     '-I{{ unreal_base }}/Engine/Source/ThirdParty/Unix/LibCxx/include/',    '-I{{ unreal_base }}/Engine/Source/ThirdParty/Unix/LibCxx/include/c++/v1/','-stdlib=libc++']
+#tools.build:sharedlinkflags=['-stdlib=libc++', '-nodefaultlibs', '-L{{ unreal_base }}/Engine/Source/ThirdParty/Unix/LibCxx/lib/Unix/x86_64-unknown-linux-gnu']
+#tools.build:exelinkflags=['-stdlib=libc++', '-L{{ unreal_base }}/Engine/Source/ThirdParty/Unix/LibCxx/lib/Unix/x86_64-unknown-linux-gnu']
+
+
+# tools.cmake.cmaketoolchain:user_toolchain=['{{ unreal_clang }}']
+
+# tools.build:cxxflags=['-nostdinc++', '-I{{ unreal_clang }}/include/c++/13.2.0/', '-I{{ unreal_clang }}/include/c++/13.2.0/x86_64-unknown-linux-gnu']
+
+# Only for rpc
+# rpclib/*:tools.build:cxxflags=['-D__GLIBC_USE_C23_STRTOL=0', '-D__GLIBC_USE_C2X_STRTOL=0']
+# rpclib/*:tools.build:verbosity=verbose
+
+[settings]
+arch=x86_64
+build_type=Release
+compiler=clang
+compiler.cppstd=17
+compiler.libcxx=libc++
+compiler.version=18
+os=Linux
+
+# {% set unreal_base = "/data/code/unreal-engine-5.5.4/Linux_Unreal_Engine_5.5.4/" %}
+# {% set unreal_clang = unreal_base + "Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v23_clang-18.1.0-rockylinux8/x86_64-unknown-linux-gnu/" %}
+# # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -nostdinc++ -I${ENGINE}/Engine/Source/ThirdParty/Unix/LibCxx/include/ -I${ENGINE}/Engine/Source/ThirdParty/Unix/LibCxx/include/c++/v1/")
+# {% set clang = unreal_clang + "/bin/clang" %}
+# 
+# [buildenv]
+# CC={{ clang }}
+# CXX={{ clang }}++
+# PATH=+(path){{ unreal_clang }}/bin
+# # LDFLAGS='-L{{ unreal_base }}/Engine/Source/ThirdParty/Unix/LibCxx/lib/Unix/x86_64-unknown-linux-gnu'
+# 
+# [conf]
+# tools.build:compiler_executables={'c': '{{ clang }}', 'cpp': '{{ clang + '++' }}' }
+# tools.build:sysroot={{ unreal_clang }}
+# tools.build:cflags=['-target x86_64-unknown-linux-gnu']
+# tools.build:cxxflags=['-target x86_64-unknown-linux-gnu',     '-I{{ unreal_base }}/Engine/Source/ThirdParty/Unix/LibCxx/include/',    '-I{{ unreal_base }}/Engine/Source/ThirdParty/Unix/LibCxx/include/c++/v1/','-stdlib=libc++']
+# tools.build:sharedlinkflags=['-stdlib=libc++', '-nodefaultlibs', '-L{{ unreal_base }}/Engine/Source/ThirdParty/Unix/LibCxx/lib/Unix/x86_64-unknown-linux-gnu']
+# tools.build:exelinkflags=['-stdlib=libc++', '-L{{ unreal_base }}/Engine/Source/ThirdParty/Unix/LibCxx/lib/Unix/x86_64-unknown-linux-gnu']
+# # tools.cmake.cmaketoolchain:user_toolchain=['{{ unreal_clang }}']
+# 
+# # tools.build:cxxflags=['-nostdinc++', '-I{{ unreal_clang }}/include/c++/13.2.0/', '-I{{ unreal_clang }}/include/c++/13.2.0/x86_64-unknown-linux-gnu']
+# 
+# # Only for rpc
+# # rpclib/*:tools.build:cxxflags=['-D__GLIBC_USE_C23_STRTOL=0', '-D__GLIBC_USE_C2X_STRTOL=0']
+# # rpclib/*:tools.build:verbosity=verbose
+# 
+# [settings]
+# arch=x86_64
+# build_type=Release
+# compiler=clang
+# compiler.cppstd=17
+# compiler.libcxx=libc++
+# compiler.version=18
+# os=Linux
+
